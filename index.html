@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>NyayaMind — Judicial Search & Learning System</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     SCREEN 1 — SIGN-IN
+══════════════════════════════════════ -->
+<div id="screen-signin" class="screen active">
+  <div class="signin-split">
+    <div class="signin-left">
+      <div class="signin-brand">
+        <div class="signin-logo-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round">
+            <circle cx="12" cy="11" r="6"/><line x1="12" y1="2" x2="12" y2="20"/><line x1="4" y1="11" x2="20" y2="11"/>
+          </svg>
+        </div>
+        <div class="signin-brand-name">NyayaMind</div>
+        <div class="signin-tagline">"Democratizing Legal Research for All"</div>
+      </div>
+      <div class="signin-features">
+        <div class="sf-item"><div class="sf-dot"></div>Semantic judgment search</div>
+        <div class="sf-item"><div class="sf-dot"></div>AI grounded answers</div>
+        <div class="sf-item"><div class="sf-dot"></div>Compare &amp; bookmark with notes</div>
+        <div class="sf-item"><div class="sf-dot"></div>Voice search support</div>
+        <div class="sf-item"><div class="sf-dot"></div>Multi-language interface</div>
+        <div class="sf-item"><div class="sf-dot"></div>Tailored dashboard for your role</div>
+      </div>
+      <div class="signin-quote">"Justice shouldn't wait for a search."</div>
+    </div>
+
+    <div class="signin-right">
+      <div class="signin-form-wrap">
+        <div class="form-title">Welcome to NyayaMind</div>
+        <div class="form-sub">Tell us about yourself to personalise your experience</div>
+
+        <div class="field-group">
+          <label class="field-label">Full name</label>
+          <div class="field-input-wrap">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5"/></svg>
+            <input type="text" id="si-name" placeholder="e.g. Arjun Sharma"/>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Email address</label>
+          <div class="field-input-wrap">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="4" width="12" height="9" rx="2"/><polyline points="2,4 8,9 14,4"/></svg>
+            <input type="email" id="si-email" placeholder="e.g. arjun@court.in"/>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Preferred language</label>
+          <div class="field-input-wrap">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><line x1="2" y1="8" x2="14" y2="8"/><path d="M8 2 Q11 8 8 14M8 2 Q5 8 8 14"/></svg>
+            <select id="si-lang">
+              <option value="en">English</option>
+              <option value="hi">हिंदी (Hindi)</option>
+              <option value="mr">मराठी (Marathi)</option>
+              <option value="gu">ગુજરાતી (Gujarati)</option>
+              <option value="ta">தமிழ் (Tamil)</option>
+              <option value="te">తెలుగు (Telugu)</option>
+              <option value="kn">ಕನ್ನಡ (Kannada)</option>
+              <option value="bn">বাংলা (Bengali)</option>
+              <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+              <option value="ur">اردو (Urdu)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">I am a…</label>
+          <div class="user-type-grid">
+            <div class="user-type-card selected" id="ut-legal" onclick="selectUserType('legal')">
+              <div class="ut-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M6 21V7l6-4 6 4v14M9 21v-6h6v6"/></svg></div>
+              <div class="ut-title">Law professional</div>
+              <div class="ut-desc">Judge, lawyer, court officer, legal researcher</div>
+            </div>
+            <div class="user-type-card" id="ut-public" onclick="selectUserType('public')">
+              <div class="ut-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+              <div class="ut-title">General public</div>
+              <div class="ut-desc">Citizen, student, journalist, researcher</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-error" id="si-error"></div>
+        <button class="signin-btn" onclick="doSignIn()">
+          Enter NyayaMind
+          <svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+        </button>
+        <div class="form-note">No password needed. Your session is private and local to this device.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 2 — MAIN APP
+══════════════════════════════════════ -->
+<div id="screen-app" class="screen">
+  <div class="app-container">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="11" r="6"/><line x1="12" y1="2" x2="12" y2="20"/><line x1="4" y1="11" x2="20" y2="11"/></svg>
+          </div>
+          <div>
+            <div class="sidebar-logo-name">NyayaMind</div>
+            <div class="sidebar-logo-sub" id="sidebar-user-type-lbl">Law Professional</div>
+          </div>
+        </div>
+
+        <div class="sidebar-user">
+          <div class="sidebar-avatar" id="sidebar-avatar">A</div>
+          <div>
+            <div class="sidebar-uname" id="sidebar-uname">User</div>
+            <div class="sidebar-ulang" id="sidebar-ulang">English</div>
+          </div>
+        </div>
+
+        <ul class="sidebar-nav">
+          <li class="active" id="nav-home" onclick="switchTab('home')">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 6l6-4 6 4v8H2V6z"/></svg>Home
+          </li>
+          <li id="nav-dashboard" onclick="switchTab('dashboard')">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+            <span id="nav-dashboard-lbl">My Dashboard</span>
+          </li>
+          <li id="nav-search" onclick="switchTab('search')">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/></svg>Search Cases
+          </li>
+          <li id="nav-bookmarks" onclick="switchTab('bookmarks')">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 2h10v11l-5-2.5L3 13V2z"/></svg>
+            Bookmarks <span class="nav-badge" id="bm-badge">0</span>
+          </li>
+          <li id="nav-compare" onclick="switchTab('compare')">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="2" width="5" height="12" rx="1"/><rect x="9" y="6" width="5" height="8" rx="1"/></svg>
+            Compare <span class="nav-badge" id="cmp-badge">0</span>
+          </li>
+          <li id="nav-history" onclick="switchTab('history')">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><polyline points="8,5 8,8 10,10"/></svg>History
+          </li>
+          <li id="nav-settings" onclick="switchTab('settings')">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="8" r="2.5"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.5 1.5M11.5 11.5L13 13M3 13l1.5-1.5M11.5 4.5L13 3"/></svg>Settings
+          </li>
+        </ul>
+      </div>
+      <div class="sidebar-footer">
+        <div class="sidebar-slogan">"Democratizing Legal Research for All"</div>
+        <button class="signout-btn" onclick="doSignOut()">Sign out</button>
+      </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- ─ HOME TAB ─ -->
+      <div id="tab-home" class="tab active">
+        <div class="hero-wrap">
+          <div class="eyebrow"><div class="live-dot"></div>Built for Indian courts</div>
+          <h1 id="hero-greeting">Good day, <em id="hero-name">User</em></h1>
+          <p id="hero-sub">NyayaMind finds the right precedent in seconds — by understanding meaning, not just keywords.</p>
+
+          <div class="search-box">
+            <div class="search-icon"><svg viewBox="0 0 16 16" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/></svg></div>
+            <input id="search-input" placeholder="Search court judgments by meaning..." onkeydown="if(event.key==='Enter') doSearch()"/>
+            <button class="mic-btn" id="mic-btn" onclick="toggleVoice()" title="Search by voice">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="1" width="6" height="9" rx="3"/><path d="M2 8c0 3.3 2.7 6 6 6s6-2.7 6-6"/><line x1="8" y1="14" x2="8" y2="16"/></svg>
+            </button>
+            <button class="search-go" onclick="doSearch()">Search</button>
+          </div>
+
+          <div class="chips">
+            <div class="chip" onclick="quickSearch('economic offence bail denied')">economic offence bail</div>
+            <div class="chip" onclick="quickSearch('cyber crime data breach')">cyber crime</div>
+            <div class="chip" onclick="quickSearch('domestic violence protection')">domestic violence</div>
+            <div class="chip" onclick="quickSearch('PMLA drug narcotics bail')">narcotics PMLA</div>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="scard"><div class="scard-num">4,218</div><div class="scard-lbl">Judgments indexed</div><div class="scard-badge badge-blue">growing</div></div>
+          <div class="scard"><div class="scard-num" id="stat-searches">127</div><div class="scard-lbl">Searches today</div><div class="scard-badge badge-green">live</div></div>
+          <div class="scard"><div class="scard-num">0.8s</div><div class="scard-lbl">Avg. result time</div><div class="scard-badge badge-blue">semantic</div></div>
+          <div class="scard"><div class="scard-num" id="stat-feedback">43</div><div class="scard-lbl">Feedback collected</div><div class="scard-badge badge-green">learning</div></div>
+        </div>
+
+        <!-- ── CRIME CATEGORY BLOCKS (NEW) ── -->
+        <div class="section-heading">Browse by crime category</div>
+        <div class="crime-grid" id="crime-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- ─ DASHBOARD TAB — switches based on user type ─ -->
+      <div id="tab-dashboard" class="tab">
+
+        <!-- LAW PROFESSIONAL DASHBOARD -->
+        <div id="dash-legal">
+          <div class="tab-header">
+            <div class="dash-role-badge legal-badge">Law Professional Dashboard</div>
+            <h2>Seven Jurors — Precedent Intelligence</h2>
+            <p>Technical case analysis, IPC sections, legal factors &amp; grounded AI reasoning</p>
+          </div>
+
+          <div class="search-box" style="max-width:100%;margin-bottom:20px">
+            <div class="search-icon"><svg viewBox="0 0 16 16" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/></svg></div>
+            <input id="sj-search" placeholder="Search by IPC section, case ID, or legal keyword..." onkeydown="if(event.key==='Enter') sjSearch()"/>
+            <button class="mic-btn" id="mic-btn-sj" onclick="toggleVoiceSJ()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="1" width="6" height="9" rx="3"/><path d="M2 8c0 3.3 2.7 6 6 6s6-2.7 6-6"/><line x1="8" y1="14" x2="8" y2="16"/></svg></button>
+            <button class="search-go" onclick="sjSearch()">Analyze</button>
+          </div>
+
+          <div class="dashboard-layout">
+            <div class="cases-col">
+              <div class="section-lbl">All precedents — sorted by confidence</div>
+              <div id="sj-grid"></div>
+            </div>
+            <aside class="quick-panel">
+              <div class="panel-card">
+                <div class="panel-card-title">Quick searches</div>
+                <ul class="quick-links">
+                  <li onclick="sjQuickSearch('bail absconding risk')">Bail — absconding risk</li>
+                  <li onclick="sjQuickSearch('PMLA twin conditions')">PMLA twin conditions</li>
+                  <li onclick="sjQuickSearch('cyber crime data breach')">Cyber crime bail</li>
+                  <li onclick="sjQuickSearch('narcotic drugs NDPS')">NDPS Act cases</li>
+                  <li onclick="sjQuickSearch('domestic violence 498A')">Section 498A IPC</li>
+                  <li onclick="sjQuickSearch('land acquisition')">Land acquisition</li>
+                </ul>
+              </div>
+              <div class="panel-card">
+                <div class="panel-card-title">Trending precedents</div>
+                <div class="trend-item"><span class="trend-up">↑ 38%</span> PMLA bail cases</div>
+                <div class="trend-item"><span class="trend-up">↑ 27%</span> Cyber crime FIR quash</div>
+                <div class="trend-item"><span class="trend-up">↑ 19%</span> NDPS bail conditions</div>
+                <div class="trend-item"><span class="trend-dn">↓ 8%</span> Property disputes</div>
+              </div>
+              <div class="panel-card">
+                <div class="panel-card-title">AI response mode</div>
+                <label class="radio-row"><input type="radio" name="ai-mode" value="grounded" checked onchange="setAIMode(this.value)"> Grounded (fast)</label>
+                <label class="radio-row"><input type="radio" name="ai-mode" value="deep" onchange="setAIMode(this.value)"> Deep research</label>
+              </div>
+            </aside>
+          </div>
+        </div>
+
+        <!-- PUBLIC DASHBOARD -->
+        <div id="dash-public" style="display:none">
+          <div class="tab-header">
+            <div class="dash-role-badge public-badge">Citizens Dashboard</div>
+            <h2>Know Your Rights</h2>
+            <p>Plain-language summaries of court cases — no legal jargon. Find cases that affect everyday life.</p>
+          </div>
+
+          <div class="search-box" style="max-width:100%;margin-bottom:20px">
+            <div class="search-icon"><svg viewBox="0 0 16 16" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/></svg></div>
+            <input id="pub-search" placeholder="Ask in plain language e.g. 'Can I get bail if accused of fraud?'" onkeydown="if(event.key==='Enter') pubSearch()"/>
+            <button class="mic-btn" id="mic-btn-pub" onclick="toggleVoicePub()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="1" width="6" height="9" rx="3"/><path d="M2 8c0 3.3 2.7 6 6 6s6-2.7 6-6"/><line x1="8" y1="14" x2="8" y2="16"/></svg></button>
+            <button class="search-go" onclick="pubSearch()">Find</button>
+          </div>
+
+          <!-- Citizen-friendly category pills -->
+          <div class="pub-categories">
+            <div class="pub-cat-pill" onclick="pubSearch('bail fraud money')">💰 Money &amp; Fraud</div>
+            <div class="pub-cat-pill" onclick="pubSearch('cyber crime internet')">💻 Online Crime</div>
+            <div class="pub-cat-pill" onclick="pubSearch('domestic violence family')">🏠 Family &amp; Safety</div>
+            <div class="pub-cat-pill" onclick="pubSearch('property land dispute')">🏗️ Property &amp; Land</div>
+            <div class="pub-cat-pill" onclick="pubSearch('drugs narcotics')">💊 Drugs</div>
+            <div class="pub-cat-pill" onclick="pubSearch('environment pollution')">🌿 Environment</div>
+          </div>
+
+          <div class="section-lbl" style="margin-bottom:12px">Recent cases explained in simple language</div>
+          <div id="pub-grid"></div>
+        </div>
+      </div>
+
+      <!-- ─ SEARCH RESULTS TAB ─ -->
+      <div id="tab-search" class="tab">
+        <div class="results-header">
+          <div class="results-title">Results for "<span id="query-display"></span>"</div>
+          <div class="results-meta" id="results-meta"></div>
+        </div>
+        <div class="compare-bar" id="compare-bar">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="14" height="14"><rect x="2" y="2" width="5" height="12" rx="1"/><rect x="9" y="6" width="5" height="8" rx="1"/></svg>
+          <span id="compare-bar-text">Select 2 cases to compare</span>
+          <button class="btn-primary" id="compare-go-btn" onclick="openCompare()" style="display:none;padding:5px 14px;font-size:12px">Compare now</button>
+          <button class="btn-ghost" onclick="clearCompare()" style="padding:5px 12px;font-size:12px">Clear</button>
+        </div>
+        <div id="results-list"></div>
+        <div class="activity-feed">
+          <div class="af-title"><div class="af-dot"></div>Live activity</div>
+          <div id="af-list"></div>
+        </div>
+      </div>
+
+      <!-- ─ CASE DETAIL TAB ─ -->
+      <div id="tab-case" class="tab">
+        <div class="case-wrap">
+          <button class="case-back" onclick="switchTab('search')">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="10,3 4,8 10,13"/></svg>Back to results
+          </button>
+          <div id="case-content"></div>
+          <div class="ask-box">
+            <div class="ask-label">
+              <svg viewBox="0 0 16 16" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><line x1="8" y1="5" x2="8" y2="9"/><circle cx="8" cy="11" r="0.5" fill="var(--purple)"/></svg>
+              Ask AI about this judgment
+            </div>
+            <div class="ask-input-row">
+              <input id="ask-input" placeholder="e.g. Why did the court deny bail here?" onkeydown="if(event.key==='Enter') askAI()"/>
+              <button class="mic-btn" id="mic-btn-ask" onclick="toggleVoiceAsk()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="1" width="6" height="9" rx="3"/><path d="M2 8c0 3.3 2.7 6 6 6s6-2.7 6-6"/><line x1="8" y1="14" x2="8" y2="16"/></svg></button>
+              <button class="ask-btn" onclick="askAI()">Ask</button>
+            </div>
+            <div class="ai-answer" id="ai-answer">
+              <div class="ai-meta-row">
+                <div class="ai-tag">Answer from judgment only</div>
+                <div class="confidence-badge" id="confidence-badge"></div>
+              </div>
+              <div class="ai-typing" id="ai-text"></div>
+              <div class="source-para" id="source-para">
+                <div class="source-para-label"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="12" height="12"><rect x="2" y="3" width="12" height="10" rx="2"/><line x1="5" y1="7" x2="11" y2="7"/></svg>Source paragraph:</div>
+                <div class="source-para-text" id="source-para-text"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─ COMPARE TAB ─ -->
+      <div id="tab-compare" class="tab">
+        <div class="page-section-title">Case comparison</div>
+        <div class="page-section-sub">Comparing two judgments side by side — differences highlighted in yellow</div>
+        <div class="compare-grid" id="compare-grid">
+          <div class="empty-state"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="12" rx="1"/><rect x="9" y="6" width="5" height="8" rx="1"/></svg><p>No cases selected yet</p><small>Tick the checkboxes on 2 result cards, then click "Compare now".</small></div>
+        </div>
+      </div>
+
+      <!-- ─ BOOKMARKS TAB (with notes) ─ -->
+      <div id="tab-bookmarks" class="tab">
+        <div class="page-section-title">Your bookmarks</div>
+        <div class="page-section-sub">Saved judgments with your personal notes</div>
+        <div id="bookmarks-list"></div>
+      </div>
+
+      <!-- ─ HISTORY TAB ─ -->
+      <div id="tab-history" class="tab">
+        <div class="page-section-title">Case history</div>
+        <div class="page-section-sub">Your recently analyzed judgments</div>
+        <div id="history-list"><div class="empty-state"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><polyline points="8,5 8,8 10,10"/></svg><p>No history yet</p><small>Analyze cases and they appear here.</small></div></div>
+      </div>
+
+      <!-- ─ SETTINGS TAB ─ -->
+      <div id="tab-settings" class="tab">
+        <div class="page-section-title">Settings</div>
+        <div class="page-section-sub">Manage your profile and preferences</div>
+        <div class="settings-card">
+          <div class="settings-section-title">Your profile</div>
+          <div class="field-group" style="margin-bottom:12px"><label class="field-label">Display name</label><div class="field-input-wrap"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5"/></svg><input type="text" id="set-name" placeholder="Your name"/></div></div>
+          <div class="field-group" style="margin-bottom:16px"><label class="field-label">Language</label><div class="field-input-wrap"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+            <select id="set-lang"><option value="en">English</option><option value="hi">हिंदी</option><option value="mr">मराठी</option><option value="gu">ગુજરાતી</option><option value="ta">தமிழ்</option><option value="te">తెలుగు</option><option value="kn">ಕನ್ನಡ</option><option value="bn">বাংলা</option><option value="pa">ਪੰਜਾਬੀ</option><option value="ur">اردو</option></select>
+          </div></div>
+          <button class="btn-primary" onclick="saveSettings()">Save changes</button>
+        </div>
+        <div class="settings-card"><div class="settings-section-title">Voice search</div><p style="font-size:13px;color:var(--text2);margin-bottom:10px">Tap any mic button in the search bar and speak. Works in Chrome on desktop &amp; Android.</p><div style="font-size:13px;background:var(--green-light);color:var(--green);padding:8px 14px;border-radius:8px;display:inline-block">Voice search enabled on this device</div></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- SEVEN JURORS MODAL -->
+<div class="modal-overlay" id="sj-modal">
+  <div class="modal-content">
+    <div class="modal-header"><h2 id="modal-title">Case Details</h2><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- BOOKMARK NOTE MODAL (NEW) -->
+<div class="modal-overlay" id="note-modal">
+  <div class="modal-content" style="max-width:440px">
+    <div class="modal-header"><h2>Add a note to this bookmark</h2><button class="modal-close" onclick="closeNoteModal()">✕</button></div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--text2);margin-bottom:12px">Write a personal note — e.g. relevant sections, your observations, or how this case applies to your matter.</p>
+      <textarea id="note-textarea" rows="5" placeholder="e.g. Relevant for Section 45 PMLA arguments. Court emphasized flight risk. Compare with SC-AB-218." style="width:100%;border:1px solid var(--border2);border-radius:8px;padding:10px 12px;font-size:13px;font-family:inherit;resize:vertical;outline:none;color:var(--text);background:var(--bg2)"></textarea>
+      <div style="display:flex;gap:10px;margin-top:14px">
+        <button class="btn-primary" onclick="saveNote()" style="flex:1">Save bookmark with note</button>
+        <button class="btn-ghost" onclick="saveNote(true)" style="flex:1">Save without note</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CRIME CATEGORY MODAL (NEW) -->
+<div class="modal-overlay" id="crime-modal">
+  <div class="modal-content" style="max-width:700px">
+    <div class="modal-header" id="crime-modal-header"><h2 id="crime-modal-title">Cases</h2><button class="modal-close" onclick="closeCrimeModal()">✕</button></div>
+    <div class="modal-body" id="crime-modal-body" style="max-height:70vh;overflow-y:auto"></div>
+  </div>
+</div>
+
+<!-- VOICE INDICATOR -->
+<div class="voice-indicator" id="voice-indicator">
+  <div class="voice-ring"></div><div class="voice-ring voice-ring-2"></div>
+  <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" width="20" height="20"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10c0 3.9 3.1 7 7 7s7-3.1 7-7"/><line x1="12" y1="17" x2="12" y2="22"/></svg>
+  <span id="voice-hint-text">Listening…</span>
+  <button onclick="stopVoice()">Cancel</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
